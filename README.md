@@ -4,10 +4,10 @@ Install and open Docker using this link if you don't have it installed already: 
 ## Available Scripts
 
 In the client directory, run:
-### `docker build --tag notification_react`
+### `docker build --tag notification_react .`
 
 In the server directory, run:
-### `docker build --tag notification_server`
+### `docker build --tag notification_server .`
 
 In the project directory, run:
 
