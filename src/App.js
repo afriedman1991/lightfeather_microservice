@@ -11,6 +11,11 @@ function App() {
   
   const GetSupervisors = async() => {
     const result = await axios.get('/api/supervisors');
+    // .then(res => {
+      // return res.sort(a.)
+    // })
+
+    // console.log("result;", result);
     setSupervisors(result.data);
   }
 
@@ -23,6 +28,9 @@ function App() {
       supervisor: selectedSupervisor,
     };
     await axios.post('/api/submit', notificationData)
+    .then(data => {
+      console.log('Notification received:', data.data);
+    })
     .catch(err => {
       throw err;
     })
