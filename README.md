@@ -1,7 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Install Docker using this link if you don't have it installed already: [link](https://docs.docker.com/get-docker/)
-Open Docker 
+Install and open Docker using this link if you don't have it installed already: [link](https://docs.docker.com/get-docker/)
 ## Available Scripts
 
 In the client directory, run:
