@@ -15,14 +15,12 @@ module.exports = (app) => {
 
 	app.post('/api/submit', async(req, res) => {
 		console.log("Calling api.submit");
-		try {
-			await service.PostSupervisorData(req.body)
-			.then(resp => {
-				res.send(resp);
-				console.log("Post successful", req.body);
-			})
-		} catch(err) {
-			throw err;
+		const resp = await service.PostNotificationData(req.body);
+		if (resp.err) {
+			console.error(resp.err);
+		} else {
+			console.log('Post request successful:', resp);
+			res.send(resp);
 		}
 	})
 }

@@ -9,19 +9,27 @@ class SupervisorsService {
 		.catch(err => console.error(`Get request to supervisors database failed: ${err}`));
 	}
 
-	async PostSupervisorData(supervisor) {
-		let missingRequiredFields = [];
-		for (let key in supervisor) {
-			if (supervisor[key] === '' || supervisor[key] === null || supervisor[key] === undefined) {
-				missingRequiredFields.push(key);
-			}
+	async PostNotificationData(notificationData) {
+		let missingRequiredFields = {fields: [], err: null};
+
+		if (notificationData.firstName === '' || notificationData.firstName === null || notificationData.firstName === undefined) {
+			missingRequiredFields.fields.push('firstName');
 		}
 
-		if (missingRequiredFields.length > 0) {
-			const errorMessage = `Missing the following required fields to complete this request: ${[...missingRequiredFields]}`;
-			throw errorMessage;
+		if (notificationData.lastName === '' || notificationData.lastName === null || notificationData.lastName === undefined) {
+			missingRequiredFields.fields.push('lastName');
+		}
+
+		if (notificationData.supervisor === '' || notificationData.supervisor === null || notificationData.supervisor === undefined) {
+			missingRequiredFields.fields.push('supervisor');
+		}
+		
+		if (missingRequiredFields.fields.length > 0) {
+			const errorMessage = `Missing the following required fields to complete this request: ${[...missingRequiredFields.fields]}`;
+			missingRequiredFields.err = errorMessage;
+			return missingRequiredFields;
 		} else {
-			return supervisor;
+			return notificationData;
 		}
 	}
 }

@@ -3,21 +3,26 @@ import axios from 'axios';
 
 function App() {
   const [supervisors, setSupervisors] = useState([]);
-  const [selectedSupervisor, setSelectedSupervisor] = useState();
+  const [selectedSupervisor, setSelectedSupervisor] = useState('');
+  const [userFirstName, setUserFirstName] = useState('');
+  const [userLastName, setUserLastName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPhone, setUserPhone] = useState('');
   
   const GetSupervisors = async() => {
     const result = await axios.get('/api/supervisors');
     setSupervisors(result.data);
   }
 
-  const PostSupervisorData = async() => {
-    let supervisor = {};
-    for (let i = 0; i < supervisors.length; i++) {
-      if (`${supervisors[i].firstName} ${supervisors[i].lastName}` === selectedSupervisor) {
-        supervisor = supervisors[i];
-      }
-    }
-    await axios.post('/api/submit', supervisor)
+  const PostNotificationData = async() => {
+    let notificationData = {
+      firstName: userFirstName,
+      lastName: userLastName,
+      email: userEmail,
+      phone: userPhone,
+      supervisor: selectedSupervisor,
+    };
+    await axios.post('/api/submit', notificationData)
     .catch(err => {
       throw err;
     })
@@ -35,11 +40,11 @@ function App() {
     <div style={personalInfo}>
       <label htmlFor="first name" style={{display: "flex", flexDirection: "column", width: "30%"}}>
       First Name
-      <input type="text" id="name" name="name"></input>
+      <input onChange={(e => setUserFirstName(e.target.value))} type="text" id="name" name="name"></input>
       </label>
       <label htmlFor="last name" style={{display: "flex", flexDirection: "column", width: "30%"}}>
       Last Name
-      <input type="text" id="name" name="name"></input>
+      <input onChange={(e => setUserLastName(e.target.value))} type="text" id="name" name="name"></input>
       </label>
     </div>
       <label htmlFor="Notification Method">
@@ -52,14 +57,14 @@ function App() {
       <input type="checkbox" id="email" name="Email"></input>
       Email
       </label>
-      <input type="text" id="emailInput" name="EmailInput"></input>
+      <input onChange={(e => setUserEmail(e.target.value))} type="text" id="emailInput" name="EmailInput"></input>
       </div>
       <div style={{display: "flex", flexDirection: "column"}}>
       <label htmlFor="phoneNumber">
       <input type="checkbox" id="phone" name="Phone"></input>
       Phone Number
       </label>
-      <input type="text" id="phoneInput" name="phoneInput"></input>
+      <input onChange={(e => setUserPhone(e.target.value))}  type="text" id="phoneInput" name="phoneInput"></input>
       </div>
       </div>
     </div>
@@ -68,7 +73,7 @@ function App() {
     <form>
     <select onChange={(e) => {
       const selected = e.target.value.slice(2, e.target.value.length);
-      console.log(selected);
+        console.log(selected);
         setSelectedSupervisor(selected);
       }}>
       <option>Select...</option>
@@ -77,7 +82,7 @@ function App() {
     })}
     </select>
     </form>
-    <button onClick={() => PostSupervisorData()}>Submit</button>
+    <button onClick={() => PostNotificationData()}>Submit</button>
     </div>
     </div>
     </div>
