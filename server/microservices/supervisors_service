@@ -1,0 +1,29 @@
+const axios = require('axios');
+
+class SupervisorsService {
+	async GetSupervisors(request, resp) {
+		return await axios.get('https://o3m5qixdng.execute-api.us-east-1.amazonaws.com/api/managers')
+		.then(data => {
+			return data.data;
+		})
+		.catch(err => console.error(`Get request to supervisors database failed: ${err}`));
+	}
+
+	async PostSupervisorData(supervisor) {
+		let missingRequiredFields = [];
+		for (let key in supervisor) {
+			if (supervisor[key] === '' || supervisor[key] === null || supervisor[key] === undefined) {
+				missingRequiredFields.push(key);
+			}
+		}
+
+		if (missingRequiredFields.length > 0) {
+			const errorMessage = `Missing the following required fields to complete this request: ${[...missingRequiredFields]}`;
+			throw errorMessage;
+		} else {
+			return supervisor;
+		}
+	}
+}
+
+module.exports = SupervisorsService;
